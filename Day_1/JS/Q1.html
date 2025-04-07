@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic Table - Name & Email</title>
+</head>
+<body>
+
+  <h2>Dynamic Editable Table</h2>
+  <button onclick="addRow()">Add Row</button>
+
+  <table id="userTable" border="1" cellpadding="8">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+  <script>
+    function addRow() {
+      const table = document.getElementById("userTable").getElementsByTagName('tbody')[0];
+      const newRow = table.insertRow();
+
+      newRow.innerHTML = `
+        <td><input type="text" placeholder="Enter name"></td>
+        <td><input type="email" placeholder="Enter email"></td>
+        <td>
+          <button onclick="toggleEdit(this)">Save</button>
+          <button onclick="deleteRow(this)">Delete</button>
+        </td>
+      `;
+    }
+
+    function deleteRow(btn) {
+      const row = btn.closest("tr");
+      row.remove();
+    }
+
+    function toggleEdit(btn) {
+      const row = btn.closest("tr");
+      const inputs = row.querySelectorAll("input");
+
+      if (btn.textContent === "Edit") {
+        inputs.forEach(input => input.removeAttribute("readonly"));
+        btn.textContent = "Save";
+      } else {
+        inputs.forEach(input => input.setAttribute("readonly", true));
+        btn.textContent = "Edit";
+      }
+    }
+  </script>
+
+</body>
+</html>

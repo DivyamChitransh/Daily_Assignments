@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pexels Gallery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .thumbnail img {
+      width: 100%;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .thumbnail img:hover {
+      transform: scale(1.05);
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .modal img {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 8px;
+    }
+    .modal.show {
+      display: flex;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Pexels Image Gallery</h2>
+  <div class="gallery" id="gallery"></div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal" onclick="hideModal()">
+    <img id="modalImage" src="" alt="Full Image">
+  </div>
+
+  <script>
+    const API_KEY = 'gFTcqaol6ZrQOzEBoWswpDIHmr5n4o59ggqKKTnqVBsRDsoOQB5uEvl8';
+    const GALLERY = document.getElementById('gallery');
+    const MODAL = document.getElementById('modal');
+    const MODAL_IMAGE = document.getElementById('modalImage');
+
+    async function fetchImages() {
+      const response = await fetch('https://api.pexels.com/v1/search?query=nature&per_page=12', {
+        headers: {
+          Authorization: API_KEY
+        }
+      });
+
+      const data = await response.json();
+      displayImages(data.photos);
+    }
+
+    function displayImages(photos) {
+      GALLERY.innerHTML = '';
+      photos.forEach(photo => {
+        const thumb = document.createElement('div');
+        thumb.className = 'thumbnail';
+        thumb.innerHTML = `<img src="${photo.src.medium}" alt="photo" onclick="showModal('${photo.src.large2x}')">`;
+        GALLERY.appendChild(thumb);
+      });
+    }
+
+    function showModal(imageUrl) {
+      MODAL_IMAGE.src = imageUrl;
+      MODAL.classList.add('show');
+    }
+
+    function hideModal() {
+      MODAL.classList.remove('show');
+      MODAL_IMAGE.src = '';
+    }
+
+    // Initial fetch
+    fetchImages();
+  </script>
+
+</body>
+</html>
