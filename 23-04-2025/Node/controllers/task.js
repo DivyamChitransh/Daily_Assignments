@@ -29,11 +29,12 @@ const getalltask = async(req,res) => {
 const updatetask = async(req,res) => {
     try{
         const {id} = req.params;
-        const status = req.body;
-        const updatedtask = await Task.findByIdAndUpdate(id,{status},{new:true})
+        const {status} = req.body;
+        const updatedtask = await Task.findByIdAndUpdate(id,{status},{new:true});
+        res.status(200).json({message:'Updated Task',updatedtask})
     }
-    catch{
-
+    catch(error){
+        res.status(500).json({error:error.message})
     }
 }
 
