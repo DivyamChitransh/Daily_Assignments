@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = '12345678';
 
@@ -16,6 +15,3 @@ const authenticate = async(req,res,next) => {
 };
 
 module.exports = {authenticate}
-=======
-const jwt = require('')
->>>>>>> 88405f457f9417d9716b43568737e39159018b7d
