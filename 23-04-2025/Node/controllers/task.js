@@ -29,7 +29,8 @@ const getalltask = async(req,res) => {
 const updatetask = async(req,res) => {
     try{
         const {id} = req.params;
-        const updatedtask = await Task.findByIdAndUpdate(id)
+        const status = req.body;
+        const updatedtask = await Task.findByIdAndUpdate(id,{status},{new:true})
     }
     catch{
 
